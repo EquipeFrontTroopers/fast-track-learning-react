@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ListCardContent from './components/ListCardContent';
+import Footer from './components/Footer';
+import './App.css';
 
 class App extends Component {
   constructor() {
@@ -63,11 +65,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
         <ListCardContent
           listaConteudos={this.state.conteudos}
           deletarCard={this.deletarCard.bind(this)}
         />
+        <Footer />
       </div>
     );
   }
