@@ -10,7 +10,7 @@ Este projeto foi desenvolvida em **React**.
 ### VALIDAÇÃO LINT
 Para este projeto foi utilizado a ferramenta **Eslint**, e o estilo utilizado foi o do Airbnb. Também foi utilizado uma extensão do Eslint no VS Code ,para facilitar a validação lint.
 
--Para executar a validação Lint utilize os  comandos ```npm run lint``` no terminal
+- Para executar a validação Lint utilize os  comandos ```npm run lint``` no terminal
 
 ### COMO RODAR OS TESTES
 Neste projeto estamos utilizando a ferramenta **Jest** para os testes.
