@@ -65,7 +65,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="teste">
         <ListCardContent
           listaConteudos={this.state.conteudos}
           deletarCard={this.deletarCard.bind(this)}

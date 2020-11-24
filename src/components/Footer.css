@@ -1,18 +1,10 @@
-/*.main-footer {
-  color: white;
-  background-color: #ffa500;
-  padding-top: 3em;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-}*/
-
 .main-footer {
+  align-self: flex-end;
   background-color: #ffa500;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   bottom: 0;
-  position: absolute;
+  position: fixed;
   width: 100%;
   color: white;
   height: 20px;
