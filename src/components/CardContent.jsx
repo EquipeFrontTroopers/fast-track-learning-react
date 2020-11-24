@@ -10,6 +10,16 @@ class CardContent extends Component {
     this.props.deleteCard(id);
   }
 
+  formatTime(hours) {
+    if (!hours) {
+      return '';
+    }
+    if (hours > 2) {
+      return `${hours} Horas`;
+    }
+    return `${hours} Hora`;
+  }
+
   render() {
     return (
       <section className="card">
@@ -23,7 +33,7 @@ class CardContent extends Component {
         </div>
 
         <div className="card-right">
-          <p className="card-workload">{`${this.props.workload} horas`}</p>
+          <p className="card-workload">{this.formatTime(this.props.workload)}</p>
           <div className="card-buttons-actions">
             <button type="submit" className="card-button">
               <MdModeEdit />

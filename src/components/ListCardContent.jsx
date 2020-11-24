@@ -12,11 +12,11 @@ class ListCardContent extends Component {
               <CardContent
                 id={item.id}
                 content={item.conteudo}
-                technology={item.tecnologia}
-                type={item.tipoConteudoId}
+                technology={item.technologyName}
+                type={item.typeDescription}
                 url={item.url}
                 workload={item.carga_horaria}
-                priority={item.prioridadeId}
+                priority={item.priorityDescription}
                 deleteCard={this.props.deleteCard}
               />
             </li>
