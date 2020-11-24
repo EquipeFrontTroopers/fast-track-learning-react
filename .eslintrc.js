@@ -20,5 +20,13 @@ module.exports = {
   ],
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/destructuring-assign': 'off',
+    'react/destructuring-assignment': 'off',
+    'react/prop-types': 'off',
+    'react/prefer-stateless-function': 'off',
+    'class-methods-use-this': 'off',
+    'react/no-access-state-in-setstate': 'off',
+    'react/no-array-index-key': 'off',
+    'react/jsx-no-bind': 'off',
   },
 };
