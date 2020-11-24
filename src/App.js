@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import ListCardContent from './components/ListCardContent';
 
 class App extends Component {
@@ -6,67 +7,39 @@ class App extends Component {
     super();
 
     this.state = {
-      conteudos: [],
+      contents: [],
     };
   }
 
   componentDidMount() {
-    this.setState({
-      conteudos: this.getConteudos(),
+    this.getContent();
+  }
+
+  getContent() {
+    axios.get('http://localhost:3000/conteudos').then((res) => {
+      this.setState({
+        contents: res.data,
+      });
+    })
+      .catch((err) => {
+        console.error(`ops! an error has occurred${err}`);
+      });
+  }
+
+  deleteCard(id) {
+    axios.delete(`http://localhost:3000/conteudos/${id}`).then(() => {
+      const items = this.state.contents;
+      const result = items.filter((contents) => contents.id !== id);
+      this.setState({ contents: result });
     });
-  }
-
-  getConteudos() {
-    return [{
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    },
-    {
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    },
-    {
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    },
-    {
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    }];
-  }
-
-  deletarCard(index) {
-    const arrayCard = this.state.conteudos;
-    arrayCard.splice(index, 1);
-    this.setState({ conteudos: arrayCard });
   }
 
   render() {
     return (
       <div className="App">
         <ListCardContent
-          listaConteudos={this.state.conteudos}
-          deletarCard={this.deletarCard.bind(this)}
+          listContents={this.state.contents}
+          deleteCard={this.deleteCard.bind(this)}
         />
       </div>
     );
