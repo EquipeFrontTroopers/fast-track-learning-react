@@ -1,0 +1,81 @@
+.card {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ffa500;
+    margin: 5px;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+.card:hover {
+    box-shadow: 5px 5px 5px 0 rgba(223, 157, 16, 0.5);
+}
+
+.card-left {
+    width: 60%;
+}
+
+.card-right {
+    width: 40%;
+    text-align: right;
+}
+
+.card-title {
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.card-content {
+    text-align: left;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.card-type-content {
+    text-align: left;
+    font-weight: bold;
+    color: #ffa500;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.card-priority {
+    text-align: center;
+    border: none;
+    text-transform: uppercase;
+    background-color: #ffa500;
+    color: #ffff;
+    margin: 30px 0 5px 0;
+    padding: 5px;
+    width: 70%;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.card-hour {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.card-buttons-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.card-button {
+    background-color: orange;
+    border: none;
+    border-radius: 4px;
+    color: #ffff;
+    margin: 60px 0 0 5px;
+    padding: 10px 12px;
+    cursor: pointer;
+}
