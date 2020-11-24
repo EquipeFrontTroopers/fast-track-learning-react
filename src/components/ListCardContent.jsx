@@ -5,8 +5,8 @@ import './ListCardContent.css';
 class ListCardContent extends Component {
   render() {
     return (
-      <div className="central">
-        <ul className="list-card-container">
+      <div className="list-card-container">
+        <ul className="list-card">
           { this.props.listaConteudos.map((item, index) => (
             <li key={index} className="list-card-item">
               <CardContent

@@ -1,10 +1,10 @@
-.central {
+.list-card-container{
     display: flex;
     justify-content: center;
     align-content: center;
 }
 
-.list-card-container {
+.list-card{
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -15,7 +15,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-    .list-card-container {
+    .list-card{
         width: 80%;
         justify-content: space-between;
     }
