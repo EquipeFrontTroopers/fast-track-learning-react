@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { MdAddCircleOutline } from 'react-icons/md';
 import ListCardContent from './components/ListCardContent';
+import FormContent from './components/FormContent';
+import PrimaryButton from './components/PrimaryButton';
 
 class App extends Component {
   constructor() {
@@ -85,6 +88,11 @@ class App extends Component {
     console.log(this.state);
     return (
       <div className="App">
+        <PrimaryButton onClick={() => alert('oi')}>
+          <MdAddCircleOutline />
+          Adicionar Conteúdo
+        </PrimaryButton>
+        <FormContent />
         <ListCardContent
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}

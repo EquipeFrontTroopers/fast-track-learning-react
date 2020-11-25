@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './reset.css';
 import './CardContent.css';
+
 import { MdDelete, MdModeEdit } from 'react-icons/md';
+import PrimaryButton from './PrimaryButton';
 
 class CardContent extends Component {
   delete() {
@@ -37,7 +39,6 @@ class CardContent extends Component {
         <div className="card-container-content">
           <p className="card-content"><a href={this.props.url}>{this.props.content}</a></p>
           <p className="card-content-type">{this.props.type}</p>
-
         </div>
 
         <div className="card-footer">
@@ -45,12 +46,9 @@ class CardContent extends Component {
             <div className="card-content-priority">{this.props.priority}</div>
           </div>
           <div className="card-container-button">
-            <button type="submit" className="card-content-button">
-              <MdModeEdit />
-            </button>
-            <button type="submit" className="card-content-button" onClick={this.delete.bind(this)}>
-              <MdDelete />
-            </button>
+            <PrimaryButton onClick={() => alert('oi')}><MdModeEdit /></PrimaryButton>
+            <PrimaryButton onClick={this.delete.bind(this)}><MdDelete /></PrimaryButton>
+
           </div>
         </div>
 
