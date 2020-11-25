@@ -7,17 +7,17 @@ class ListCardContent extends Component {
     return (
       <div className="list-card-container">
         <ul className="list-card">
-          { this.props.listaConteudos.map((item, index) => (
-            <li key={index} className="list-card-item">
+          { this.props.listContents.map((item) => (
+            <li key={item.id} className="list-card-item">
               <CardContent
-                indice={index}
-                conteudo={item.conteudo}
-                tecnologia={item.tecnologia}
-                tipo={item.tipo}
+                id={item.id}
+                content={item.conteudo}
+                technology={item.technologyName}
+                type={item.typeDescription}
                 url={item.url}
-                cargaHoraria={item.cargaHoraria}
-                prioridade={item.prioridade}
-                deletarCard={this.props.deletarCard}
+                workload={item.carga_horaria}
+                priority={item.priorityDescription}
+                deleteCard={this.props.deleteCard}
               />
             </li>
           ))}

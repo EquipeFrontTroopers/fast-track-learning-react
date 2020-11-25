@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import ListCardContent from './components/ListCardContent';
 
 class App extends Component {
@@ -6,67 +7,87 @@ class App extends Component {
     super();
 
     this.state = {
-      conteudos: [],
+      contents: [],
     };
   }
 
   componentDidMount() {
+    this.getContent();
+  }
+
+  async getContent() {
+    const contentResponse = await axios.get('http://localhost:3000/conteudos');
+    const contents = contentResponse.data;
+
+    const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
+    const priorities = prioritiesResponse.data;
+
+    const typeResponse = await axios.get('http://localhost:3000/tipoConteudos');
+    const type = typeResponse.data;
+
+    const technologyResponse = await axios.get('http://localhost:3000/tecnologias');
+    const technology = technologyResponse.data;
+
+    const priorityOfContent = this.addPriorityDescription(contents, priorities);
+    const typeOfContent = this.addTypeDescription(priorityOfContent, type);
+    const technologyOfContent = this.addTechnologyName(typeOfContent, technology);
+
     this.setState({
-      conteudos: this.getConteudos(),
+      contents: technologyOfContent,
     });
   }
 
-  getConteudos() {
-    return [{
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    },
-    {
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    },
-    {
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    },
-    {
-      id: 1,
-      tecnologia: 'React',
-      conteudo: 'Hooks',
-      url: 'https://pt-br.reactjs.org/docs/hooks-state.html',
-      tipo: 'Site',
-      cargaHoraria: '2',
-      prioridade: 'Obrigatória',
-    }];
+  deleteCard(id) {
+    axios.delete(`http://localhost:3000/conteudos/${id}`).then(() => {
+      const items = this.state.contents;
+      const result = items.filter((contents) => contents.id !== id);
+      this.setState({ contents: result });
+    });
   }
 
-  deletarCard(index) {
-    const arrayCard = this.state.conteudos;
-    arrayCard.splice(index, 1);
-    this.setState({ conteudos: arrayCard });
+  addPriorityDescription(contents, priorities) {
+    const result = contents.map((item) => {
+      const prioritiesContent = priorities.find(
+        (priorityItem) => item.prioridadeId === priorityItem.id,
+      );
+      const newItem = item;
+      newItem.priorityDescription = prioritiesContent.descricao;
+      return item;
+    });
+    return result;
+  }
+
+  addTypeDescription(contents, type) {
+    const result = contents.map((item) => {
+      const typeOfContent = type.find(
+        (typeItem) => item.tipoConteudoId === typeItem.id,
+      );
+      const newItem = item;
+      newItem.typeDescription = typeOfContent.descricao;
+      return item;
+    });
+    return result;
+  }
+
+  addTechnologyName(contents, technology) {
+    const result = contents.map((item) => {
+      const technologyOfContent = technology.find(
+        (technologyItem) => item.tecnologiaId === technologyItem.id,
+      );
+      const newItem = item;
+      newItem.technologyName = technologyOfContent.nome;
+      return item;
+    });
+    return result;
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className="App">
         <ListCardContent
-          listaConteudos={this.state.conteudos}
-          deletarCard={this.deletarCard.bind(this)}
+          listContents={this.state.contents}
+          deleteCard={this.deleteCard.bind(this)}
         />
       </div>
     );
