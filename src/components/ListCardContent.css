@@ -16,7 +16,7 @@
 
 @media only screen and (min-width: 768px) {
     .list-card{
-        width: 80%;
+        width: 70%;
         justify-content: space-between;
     }
 }

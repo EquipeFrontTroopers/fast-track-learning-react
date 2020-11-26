@@ -1,36 +1,54 @@
 import React, { Component } from 'react';
 import './reset.css';
 import './CardContent.css';
+
 import { MdDelete, MdModeEdit } from 'react-icons/md';
+import PrimaryButton from './PrimaryButton';
 
 class CardContent extends Component {
-  apagar() {
-    const { indice } = this.props;
+  delete() {
+    const { id } = this.props;
     console.log(this.props);
-    this.props.deletarCard(indice);
+    this.props.deleteCard(id);
+  }
+
+  formatTime(hours) {
+    if (!hours) {
+      return '';
+    }
+    if (hours > 2) {
+      return `${hours} Horas`;
+    }
+    return `${hours} Hora`;
   }
 
   render() {
     return (
       <section className="card">
-        <div className="card-left">
-          <p className="card-title">
-            {this.props.tecnologia}
-          </p>
-          <p className="card-content"><a href={this.props.url}>{this.props.conteudo}</a></p>
-          <p className="card-type-content">{this.props.tipo}</p>
-          <div className="card-priority ">{this.props.prioridade}</div>
+
+        <div className="card-header">
+          <div className="card-content-technology">
+            <p>{this.props.technology}</p>
+          </div>
+          <div className="card-content-workload">
+            <p>{this.formatTime(this.props.workload)}</p>
+
+          </div>
         </div>
 
-        <div className="card-right">
-          <p className="card-hour">{`${this.props.cargaHoraria} horas`}</p>
-          <div className="card-buttons-actions">
-            <button type="submit" className="card-button">
-              <MdModeEdit />
-            </button>
-            <button type="submit" className="card-button" onClick={this.apagar.bind(this)}>
-              <MdDelete />
-            </button>
+        <div className="card-container-content">
+          <p className="card-content"><a href={this.props.url}>{this.props.content}</a></p>
+          <p className="card-content-type">{this.props.type}</p>
+        </div>
+
+        <div className="card-footer">
+          <div className="card-container-priority">
+            <div className="card-content-priority">{this.props.priority}</div>
+          </div>
+          <div className="card-container-button">
+            <PrimaryButton onClick={() => alert('oi')}><MdModeEdit /></PrimaryButton>
+            <PrimaryButton onClick={this.delete.bind(this)}><MdDelete /></PrimaryButton>
+
           </div>
         </div>
 
