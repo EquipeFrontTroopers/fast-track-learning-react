@@ -14,10 +14,10 @@ class CardContent extends Component {
     return (
       <section className="card">
         <div className="card-left">
-          <p className="card-title">
-            {this.props.tecnologia}
+          <p className="card-title">{this.props.tecnologia}</p>
+          <p className="card-content">
+            <a href={this.props.url}>{this.props.conteudo}</a>
           </p>
-          <p className="card-content"><a href={this.props.url}>{this.props.conteudo}</a></p>
           <p className="card-type-content">{this.props.tipo}</p>
           <div className="card-priority ">{this.props.prioridade}</div>
         </div>
@@ -28,12 +28,15 @@ class CardContent extends Component {
             <button type="submit" className="card-button">
               <MdModeEdit />
             </button>
-            <button type="submit" className="card-button" onClick={this.apagar.bind(this)}>
+            <button
+              type="submit"
+              className="card-button"
+              onClick={this.apagar.bind(this)}
+            >
               <MdDelete />
             </button>
           </div>
         </div>
-
       </section>
     );
   }

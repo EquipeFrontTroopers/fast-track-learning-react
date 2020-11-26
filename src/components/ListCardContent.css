@@ -1,28 +1,28 @@
-.list-card-container{
-    display: flex;
-    justify-content: center;
-    align-content: center;
+.list-card-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
-.list-card{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-@media only screen and (min-width: 768px) {
-    .list-card{
-        width: 80%;
-        justify-content: space-between;
-    }
+.list-card {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 @media only screen and (min-width: 768px) {
-    .list-card-item {
-        margin: 12px;
-    }
+  .list-card {
+    width: 80%;
+    justify-content: space-between;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .list-card-item {
+    margin: 12px;
+  }
 }
