@@ -8,7 +8,6 @@ import PrimaryButton from './PrimaryButton';
 class CardContent extends Component {
   delete() {
     const { id } = this.props;
-    console.log(this.props);
     this.props.deleteCard(id);
   }
 
