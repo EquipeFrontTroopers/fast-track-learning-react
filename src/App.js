@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { MdAddCircleOutline } from 'react-icons/md';
-import ListCardContent from './components/ListCardContent';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
 import FormContent from './components/FormContent';
+import ListCardContent from './components/ListCardContent';
+
 import PrimaryButton from './components/PrimaryButton';
+import './HomePage.css';
 
 class App extends Component {
   constructor() {
@@ -40,12 +44,12 @@ class App extends Component {
     });
   }
 
-  deleteCard(id) {
-    axios.delete(`http://localhost:3000/conteudos/${id}`).then(() => {
-      const items = this.state.contents;
-      const result = items.filter((contents) => contents.id !== id);
-      this.setState({ contents: result });
-    });
+  async deleteCard(id) {
+    await axios.delete(`http://localhost:3000/conteudos/${id}`);
+
+    const items = this.state.contents;
+    const result = items.filter((contents) => contents.id !== id);
+    this.setState({ contents: result });
   }
 
   addPriorityDescription(contents, priorities) {
@@ -54,7 +58,10 @@ class App extends Component {
         (priorityItem) => item.prioridadeId === priorityItem.id,
       );
       const newItem = item;
-      newItem.priorityDescription = prioritiesContent.descricao;
+      if (prioritiesContent) {
+        newItem.priorityDescription = prioritiesContent.descricao;
+      }
+
       return item;
     });
     return result;
@@ -66,7 +73,9 @@ class App extends Component {
         (typeItem) => item.tipoConteudoId === typeItem.id,
       );
       const newItem = item;
-      newItem.typeDescription = typeOfContent.descricao;
+      if (typeOfContent) {
+        newItem.typeDescription = typeOfContent.descricao;
+      }
       return item;
     });
     return result;
@@ -78,25 +87,64 @@ class App extends Component {
         (technologyItem) => item.tecnologiaId === technologyItem.id,
       );
       const newItem = item;
-      newItem.technologyName = technologyOfContent.nome;
+      if (technologyOfContent) {
+        newItem.technologyName = technologyOfContent.nome;
+      }
       return item;
     });
     return result;
   }
 
+  openFormModal() {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      html: <FormContent onSubmit={this.createNewContent.bind(this)} />,
+      showCloseButton: true,
+      showCancelButton: false,
+      focusConfirm: false,
+      showConfirmButton: false,
+    });
+  }
+
+  async createNewContent(content, url, workload, technology, type, priority) {
+    const resp = await axios.post('http://localhost:3000/conteudos', {
+      conteudo: content,
+      url,
+      carga_horaria: workload,
+      tecnologiaId: technology,
+      tipoConteudoId: type,
+      prioridadeId: priority,
+    });
+
+    const items = this.state.contents;
+
+    items.push(resp.data);
+    this.setState({ contents: items });
+  }
+
   render() {
-    console.log(this.state);
     return (
       <div className="App">
-        <PrimaryButton onClick={() => alert('oi')}>
-          <MdAddCircleOutline />
-          Adicionar Conteúdo
-        </PrimaryButton>
-        <FormContent />
+        <div className="main-buttons">
+          <div className="main-button-action">
+            <PrimaryButton onClick={this.openFormModal}>
+              <MdFilterList />
+              &nbsp;&nbsp;Filtrar
+            </PrimaryButton>
+          </div>
+          <div className="main-button-action">
+            <PrimaryButton onClick={this.openFormModal.bind(this)}>
+              <MdAddCircleOutline />
+              &nbsp;&nbsp;Adicionar Conteúdo
+            </PrimaryButton>
+          </div>
+        </div>
+
         <ListCardContent
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}
         />
+
       </div>
     );
   }
