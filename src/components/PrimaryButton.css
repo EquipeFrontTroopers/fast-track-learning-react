@@ -1,15 +1,14 @@
-.primary-button{
-    background-color: #f7b718;
-    border: none;
-    border-radius: 4px;
-    color: #ffff;
-    padding: 8px 10px;
-    cursor: pointer;
-    margin: 5px;
-    text-align: center;
+.primary-button {
+  background-color: #f7b718;
+  border: none;
+  border-radius: 4px;
+  color: #ffff;
+  padding: 8px 10px;
+  cursor: pointer;
+  margin: 5px;
+  text-align: center;
 }
 
-.primary-button:hover{
-    background-color:#c98303;
-
+.primary-button:hover {
+  background-color: #c98303;
 }

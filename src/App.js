@@ -4,6 +4,7 @@ import { MdAddCircleOutline } from 'react-icons/md';
 import ListCardContent from './components/ListCardContent';
 import FormContent from './components/FormContent';
 import PrimaryButton from './components/PrimaryButton';
+import Footer from './components/Footer';
 
 class App extends Component {
   constructor() {
@@ -97,6 +98,7 @@ class App extends Component {
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}
         />
+        <Footer />
       </div>
     );
   }
