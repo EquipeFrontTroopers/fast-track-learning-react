@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Header from './components/Header';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
+import Header from './components/Header';
 
 import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
@@ -22,6 +22,10 @@ class App extends Component {
 
   componentDidMount() {
     this.getContent();
+  }
+
+  handleNewContentClick() {
+    this.openFormModal();
   }
 
   async getContent() {
@@ -44,14 +48,6 @@ class App extends Component {
     this.setState({
       contents: technologyOfContent,
     });
-  }
-
-  async deleteCard(id) {
-    await axios.delete(`http://localhost:3000/conteudos/${id}`);
-
-    const items = this.state.contents;
-    const result = items.filter((contents) => contents.id !== id);
-    this.setState({ contents: result });
   }
 
   addPriorityDescription(contents, priorities) {
@@ -97,10 +93,18 @@ class App extends Component {
     return result;
   }
 
-  openFormModal() {
+  openFormModal(content, url, type, technology, workload, priority) {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      html: <FormContent onSubmit={this.createNewContent.bind(this)} />,
+      html: <FormContent
+        onSubmit={this.createNewContent.bind(this)}
+        content={content}
+        url={url}
+        type={type}
+        technology={technology}
+        workload={workload}
+        priority={priority}
+      />,
       showCloseButton: true,
       showCancelButton: false,
       focusConfirm: false,
@@ -124,27 +128,52 @@ class App extends Component {
     this.setState({ contents: items });
   }
 
+  async deleteCard(id) {
+    await axios.delete(`http://localhost:3000/conteudos/${id}`);
+
+    const items = this.state.contents;
+    const result = items.filter((contents) => contents.id !== id);
+    this.setState({ contents: result });
+  }
+
+  editCard(id) {
+    const items = this.state.contents;
+    const result = items.find((contents) => contents.id === id);
+    console.log(result);
+    this.openFormModal(
+      result.conteudo,
+      result.url,
+      result.tipoConteudoId,
+      result.tecnologiaId,
+      result.carga_horaria,
+      result.prioridadeId,
+
+    );
+  }
+
   render() {
     return (
       <div className="App">
         <Header />
+
         <div className="main-buttons">
           <div className="main-button-action">
-            <PrimaryButton onClick={this.openFormModal}>
-              <MdFilterList />
-              &nbsp;&nbsp;Filtrar
+            <PrimaryButton>
+              <MdFilterList className="button-content" />
+              <span className="button-content">Filtrar</span>
             </PrimaryButton>
           </div>
           <div className="main-button-action">
-            <PrimaryButton onClick={this.openFormModal.bind(this)}>
-              <MdAddCircleOutline />
-              &nbsp;&nbsp;Adicionar Conteúdo
+            <PrimaryButton onClick={this.handleNewContentClick.bind(this)}>
+              <MdAddCircleOutline className="button-content" />
+              <span className="button-content">Adicionar Conteúdo</span>
             </PrimaryButton>
           </div>
         </div>
         <ListCardContent
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}
+          editCard={this.editCard.bind(this)}
         />
 
       </div>
