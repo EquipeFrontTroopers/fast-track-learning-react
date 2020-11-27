@@ -51,12 +51,14 @@ class FormContent extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state.content,
+    this.props.onSubmit(
+      this.state.content,
       this.state.url,
       this.state.workload,
       this.state.technology,
       this.state.type,
-      this.state.priority);
+      this.state.priority,
+    );
   }
 
   render() {
@@ -102,7 +104,7 @@ class FormContent extends Component {
                 <option value="1">Angular</option>
                 <option value="2">React</option>
                 <option value="3">Vue</option>
-                <option value="4">ANGULAR VS REACT VS VUE</option>
+                <option value="4">Angular vs React vs Vue</option>
               </select>
             </label>
 

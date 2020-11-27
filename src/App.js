@@ -65,17 +65,19 @@ class App extends Component {
     return result;
   }
 
+  addTypeDescriptionToContent(item, type) {
+    const typeOfContent = type.find(
+      (typeItem) => item.tipoConteudoId === typeItem.id,
+    );
+    const newItem = item;
+    if (typeOfContent) {
+      newItem.typeDescription = typeOfContent.descricao;
+    }
+    return item;
+  }
+
   addTypeDescription(contents, type) {
-    const result = contents.map((item) => {
-      const typeOfContent = type.find(
-        (typeItem) => item.tipoConteudoId === typeItem.id,
-      );
-      const newItem = item;
-      if (typeOfContent) {
-        newItem.typeDescription = typeOfContent.descricao;
-      }
-      return item;
-    });
+    const result = contents.map((item) => this.addTypeDescriptionToContent(item, type));
     return result;
   }
 
@@ -123,10 +125,26 @@ class App extends Component {
     });
 
     const items = this.state.contents;
+    console.log(items);
 
     items.push(resp.data);
     this.setState({ contents: items });
   }
+
+  /* async addMissingContentFields(content) {
+    const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
+    const priorities = prioritiesResponse.data;
+
+    const typeResponse = await axios.get('http://localhost:3000/tipoConteudos');
+    const type = typeResponse.data;
+
+    const technologyResponse = await axios.get('http://localhost:3000/tecnologias');
+    const technology = technologyResponse.data;
+
+    const typeOfContent = this.addTypeDescriptionToContent(content, type);
+    const priorityOfContent = this.addTypeDescription(typeOfContent, priorities);
+    const technologyOfContent = this.addTechnologyName(typeOfContent, technology);
+  } */
 
   async deleteCard(id) {
     await axios.delete(`http://localhost:3000/conteudos/${id}`);
@@ -139,7 +157,7 @@ class App extends Component {
   editCard(id) {
     const items = this.state.contents;
     const result = items.find((contents) => contents.id === id);
-    console.log(result);
+
     this.openFormModal(
       result.conteudo,
       result.url,
@@ -147,6 +165,10 @@ class App extends Component {
       result.tecnologiaId,
       result.carga_horaria,
       result.prioridadeId,
+
+      result.priorityDescription,
+      result.typeDescription,
+      result.technologyName,
 
     );
   }
