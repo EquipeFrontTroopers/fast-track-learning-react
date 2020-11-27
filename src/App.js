@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Header from './components/Header';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
+
 import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
 
@@ -125,6 +127,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Header />
         <div className="main-buttons">
           <div className="main-button-action">
             <PrimaryButton onClick={this.openFormModal}>
@@ -139,7 +142,6 @@ class App extends Component {
             </PrimaryButton>
           </div>
         </div>
-
         <ListCardContent
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}
