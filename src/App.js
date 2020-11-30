@@ -25,13 +25,17 @@ class App extends Component {
   }
 
   handleNewContentClick() {
-    this.openFormModal();
+    this.openFormModal(null, null, null, null, null, null, null, null, null, this.createNewContent);
   }
 
   async getContent() {
     const contentResponse = await axios.get('http://localhost:3000/conteudos');
     const contents = contentResponse.data;
 
+    this.addContentInfo(contents);
+  }
+
+  async addContentInfo(contents) {
     const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
     const priorities = prioritiesResponse.data;
 
@@ -95,17 +99,27 @@ class App extends Component {
     return result;
   }
 
-  openFormModal(content, url, type, technology, workload, priority) {
+  openFormModal(content,
+    url,
+    type,
+    technology,
+    workload,
+    priority,
+    priorityDescription,
+    typeDescription,
+    technologyName,
+    onSubmit, id) {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       html: <FormContent
-        onSubmit={this.createNewContent.bind(this)}
+        onSubmit={onSubmit.bind(this)}
         content={content}
         url={url}
         type={type}
         technology={technology}
         workload={workload}
         priority={priority}
+        id={id}
       />,
       showCloseButton: true,
       showCancelButton: false,
@@ -125,26 +139,24 @@ class App extends Component {
     });
 
     const items = this.state.contents;
-    console.log(items);
-
     items.push(resp.data);
-    this.setState({ contents: items });
+    this.addContentInfo(items);
   }
 
-  /* async addMissingContentFields(content) {
-    const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
-    const priorities = prioritiesResponse.data;
-
-    const typeResponse = await axios.get('http://localhost:3000/tipoConteudos');
-    const type = typeResponse.data;
-
-    const technologyResponse = await axios.get('http://localhost:3000/tecnologias');
-    const technology = technologyResponse.data;
-
-    const typeOfContent = this.addTypeDescriptionToContent(content, type);
-    const priorityOfContent = this.addTypeDescription(typeOfContent, priorities);
-    const technologyOfContent = this.addTechnologyName(typeOfContent, technology);
-  } */
+  async patchContent(content, url, workload, technology, type, priority, id) {
+    const resp = await axios.patch(`http://localhost:3000/conteudos/${id}`, {
+      conteudo: content,
+      url,
+      carga_horaria: workload,
+      tecnologiaId: technology,
+      tipoConteudoId: type,
+      prioridadeId: priority,
+    });
+    const index = this.state.contents.findIndex((item) => item.id === id);
+    this.state.contents[index] = resp.data;
+    this.addContentInfo(this.state.contents);
+    // console.log(result);
+  }
 
   async deleteCard(id) {
     await axios.delete(`http://localhost:3000/conteudos/${id}`);
@@ -157,20 +169,21 @@ class App extends Component {
   editCard(id) {
     const items = this.state.contents;
     const result = items.find((contents) => contents.id === id);
-
-    this.openFormModal(
-      result.conteudo,
-      result.url,
-      result.tipoConteudoId,
-      result.tecnologiaId,
-      result.carga_horaria,
-      result.prioridadeId,
-
-      result.priorityDescription,
-      result.typeDescription,
-      result.technologyName,
-
-    );
+    if (result) {
+      this.openFormModal(
+        result.conteudo,
+        result.url,
+        result.tipoConteudoId,
+        result.tecnologiaId,
+        result.carga_horaria,
+        result.prioridadeId,
+        result.priorityDescription,
+        result.typeDescription,
+        result.technologyName,
+        this.patchContent,
+        id,
+      );
+    }
   }
 
   render() {

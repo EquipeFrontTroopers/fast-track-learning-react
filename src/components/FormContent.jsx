@@ -58,6 +58,7 @@ class FormContent extends Component {
       this.state.technology,
       this.state.type,
       this.state.priority,
+      this.props.id,
     );
   }
 
