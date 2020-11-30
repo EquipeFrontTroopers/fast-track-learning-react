@@ -8,9 +8,9 @@
     margin: 5px;
     text-align: center;
     vertical-align: middle;
+
 }
 
-.primary-button:hover{
-    background-color:#c98303;
-
+.primary-button:hover {
+  background-color: #c98303;
 }

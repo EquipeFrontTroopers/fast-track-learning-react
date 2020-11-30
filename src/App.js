@@ -9,7 +9,11 @@ import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
 
 import PrimaryButton from './components/PrimaryButton';
+
+import Footer from './components/Footer';
+
 import './HomePage.css';
+
 
 class App extends Component {
   constructor() {
@@ -197,7 +201,7 @@ class App extends Component {
           deleteCard={this.deleteCard.bind(this)}
           editCard={this.editCard.bind(this)}
         />
-
+        <Footer />
       </div>
     );
   }
