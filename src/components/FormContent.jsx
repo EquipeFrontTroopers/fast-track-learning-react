@@ -65,7 +65,6 @@ class FormContent extends Component {
   render() {
     return (
       <div className="form-container">
-
         <form className="form-content" onSubmit={this.handleSubmit.bind(this)}>
           <h1 className="form-title">Inserir/Editar Conteúdo</h1>
           <label htmlFor="url" className="form-content-label">
@@ -79,9 +78,11 @@ class FormContent extends Component {
               required
             />
           </label>
+
           <label htmlFor="url" className="form-content-label">
             URL
             <input type="url" value={this.state.url} onChange={this.handleChangeURL.bind(this)} id="furl" name="url" className="form-content-item" required />
+
           </label>
           <label htmlFor="type" className="form-content-label">
             Tipo do Conteúdo
@@ -115,8 +116,8 @@ class FormContent extends Component {
                 <option value="3">Vue</option>
                 <option value="4">Angular vs React vs Vue</option>
               </select>
-            </label>
 
+            </label>
           </label>
           <label htmlFor="workload" className="form-content-label label-right">
             Carga Horária
@@ -130,9 +131,9 @@ class FormContent extends Component {
           </label>
 
           <button type="submit" value="Enviar" className="form-button">Inserir/Editar</button>
+
         </form>
       </div>
-
     );
   }
 }
