@@ -24,6 +24,10 @@ class App extends Component {
     this.getContent();
   }
 
+  handleNewContentClick() {
+    this.openFormModal();
+  }
+
   async getContent() {
     const contentResponse = await axios.get('http://localhost:3000/conteudos');
     const contents = contentResponse.data;
@@ -46,14 +50,6 @@ class App extends Component {
     });
   }
 
-  async deleteCard(id) {
-    await axios.delete(`http://localhost:3000/conteudos/${id}`);
-
-    const items = this.state.contents;
-    const result = items.filter((contents) => contents.id !== id);
-    this.setState({ contents: result });
-  }
-
   addPriorityDescription(contents, priorities) {
     const result = contents.map((item) => {
       const prioritiesContent = priorities.find(
@@ -69,17 +65,19 @@ class App extends Component {
     return result;
   }
 
+  addTypeDescriptionToContent(item, type) {
+    const typeOfContent = type.find(
+      (typeItem) => item.tipoConteudoId === typeItem.id,
+    );
+    const newItem = item;
+    if (typeOfContent) {
+      newItem.typeDescription = typeOfContent.descricao;
+    }
+    return item;
+  }
+
   addTypeDescription(contents, type) {
-    const result = contents.map((item) => {
-      const typeOfContent = type.find(
-        (typeItem) => item.tipoConteudoId === typeItem.id,
-      );
-      const newItem = item;
-      if (typeOfContent) {
-        newItem.typeDescription = typeOfContent.descricao;
-      }
-      return item;
-    });
+    const result = contents.map((item) => this.addTypeDescriptionToContent(item, type));
     return result;
   }
 
@@ -97,10 +95,18 @@ class App extends Component {
     return result;
   }
 
-  openFormModal() {
+  openFormModal(content, url, type, technology, workload, priority) {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
-      html: <FormContent onSubmit={this.createNewContent.bind(this)} />,
+      html: <FormContent
+        onSubmit={this.createNewContent.bind(this)}
+        content={content}
+        url={url}
+        type={type}
+        technology={technology}
+        workload={workload}
+        priority={priority}
+      />,
       showCloseButton: true,
       showCancelButton: false,
       focusConfirm: false,
@@ -119,32 +125,77 @@ class App extends Component {
     });
 
     const items = this.state.contents;
+    console.log(items);
 
     items.push(resp.data);
     this.setState({ contents: items });
+  }
+
+  /* async addMissingContentFields(content) {
+    const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
+    const priorities = prioritiesResponse.data;
+
+    const typeResponse = await axios.get('http://localhost:3000/tipoConteudos');
+    const type = typeResponse.data;
+
+    const technologyResponse = await axios.get('http://localhost:3000/tecnologias');
+    const technology = technologyResponse.data;
+
+    const typeOfContent = this.addTypeDescriptionToContent(content, type);
+    const priorityOfContent = this.addTypeDescription(typeOfContent, priorities);
+    const technologyOfContent = this.addTechnologyName(typeOfContent, technology);
+  } */
+
+  async deleteCard(id) {
+    await axios.delete(`http://localhost:3000/conteudos/${id}`);
+
+    const items = this.state.contents;
+    const result = items.filter((contents) => contents.id !== id);
+    this.setState({ contents: result });
+  }
+
+  editCard(id) {
+    const items = this.state.contents;
+    const result = items.find((contents) => contents.id === id);
+
+    this.openFormModal(
+      result.conteudo,
+      result.url,
+      result.tipoConteudoId,
+      result.tecnologiaId,
+      result.carga_horaria,
+      result.prioridadeId,
+
+      result.priorityDescription,
+      result.typeDescription,
+      result.technologyName,
+
+    );
   }
 
   render() {
     return (
       <div className="App">
         <Header />
+
         <div className="main-buttons">
           <div className="main-button-action">
-            <PrimaryButton onClick={this.openFormModal}>
-              <MdFilterList />
-              &nbsp;&nbsp;Filtrar
+            <PrimaryButton>
+              <MdFilterList className="button-content" />
+              <span className="button-content">Filtrar</span>
             </PrimaryButton>
           </div>
           <div className="main-button-action">
-            <PrimaryButton onClick={this.openFormModal.bind(this)}>
-              <MdAddCircleOutline />
-              &nbsp;&nbsp;Adicionar Conteúdo
+            <PrimaryButton onClick={this.handleNewContentClick.bind(this)}>
+              <MdAddCircleOutline className="button-content" />
+              <span className="button-content">Adicionar Conteúdo</span>
             </PrimaryButton>
           </div>
         </div>
         <ListCardContent
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}
+          editCard={this.editCard.bind(this)}
         />
 
       </div>
