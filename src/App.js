@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { MdAddCircleOutline } from 'react-icons/md';
-import ListCardContent from './components/ListCardContent';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
+import Header from './components/Header';
+
 import FormContent from './components/FormContent';
+import ListCardContent from './components/ListCardContent';
+
 import PrimaryButton from './components/PrimaryButton';
+
 import Footer from './components/Footer';
+
+import './HomePage.css';
+
 
 class App extends Component {
   constructor() {
@@ -17,6 +26,10 @@ class App extends Component {
 
   componentDidMount() {
     this.getContent();
+  }
+
+  handleNewContentClick() {
+    this.openFormModal();
   }
 
   async getContent() {
@@ -41,35 +54,34 @@ class App extends Component {
     });
   }
 
-  deleteCard(id) {
-    axios.delete(`http://localhost:3000/conteudos/${id}`).then(() => {
-      const items = this.state.contents;
-      const result = items.filter((contents) => contents.id !== id);
-      this.setState({ contents: result });
-    });
-  }
-
   addPriorityDescription(contents, priorities) {
     const result = contents.map((item) => {
       const prioritiesContent = priorities.find(
         (priorityItem) => item.prioridadeId === priorityItem.id,
       );
       const newItem = item;
-      newItem.priorityDescription = prioritiesContent.descricao;
+      if (prioritiesContent) {
+        newItem.priorityDescription = prioritiesContent.descricao;
+      }
+
       return item;
     });
     return result;
   }
 
-  addTypeDescription(contents, type) {
-    const result = contents.map((item) => {
-      const typeOfContent = type.find(
-        (typeItem) => item.tipoConteudoId === typeItem.id,
-      );
-      const newItem = item;
+  addTypeDescriptionToContent(item, type) {
+    const typeOfContent = type.find(
+      (typeItem) => item.tipoConteudoId === typeItem.id,
+    );
+    const newItem = item;
+    if (typeOfContent) {
       newItem.typeDescription = typeOfContent.descricao;
-      return item;
-    });
+    }
+    return item;
+  }
+
+  addTypeDescription(contents, type) {
+    const result = contents.map((item) => this.addTypeDescriptionToContent(item, type));
     return result;
   }
 
@@ -79,24 +91,115 @@ class App extends Component {
         (technologyItem) => item.tecnologiaId === technologyItem.id,
       );
       const newItem = item;
-      newItem.technologyName = technologyOfContent.nome;
+      if (technologyOfContent) {
+        newItem.technologyName = technologyOfContent.nome;
+      }
       return item;
     });
     return result;
   }
 
+  openFormModal(content, url, type, technology, workload, priority) {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      html: <FormContent
+        onSubmit={this.createNewContent.bind(this)}
+        content={content}
+        url={url}
+        type={type}
+        technology={technology}
+        workload={workload}
+        priority={priority}
+      />,
+      showCloseButton: true,
+      showCancelButton: false,
+      focusConfirm: false,
+      showConfirmButton: false,
+    });
+  }
+
+  async createNewContent(content, url, workload, technology, type, priority) {
+    const resp = await axios.post('http://localhost:3000/conteudos', {
+      conteudo: content,
+      url,
+      carga_horaria: workload,
+      tecnologiaId: technology,
+      tipoConteudoId: type,
+      prioridadeId: priority,
+    });
+
+    const items = this.state.contents;
+    console.log(items);
+
+    items.push(resp.data);
+    this.setState({ contents: items });
+  }
+
+  /* async addMissingContentFields(content) {
+    const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
+    const priorities = prioritiesResponse.data;
+
+    const typeResponse = await axios.get('http://localhost:3000/tipoConteudos');
+    const type = typeResponse.data;
+
+    const technologyResponse = await axios.get('http://localhost:3000/tecnologias');
+    const technology = technologyResponse.data;
+
+    const typeOfContent = this.addTypeDescriptionToContent(content, type);
+    const priorityOfContent = this.addTypeDescription(typeOfContent, priorities);
+    const technologyOfContent = this.addTechnologyName(typeOfContent, technology);
+  } */
+
+  async deleteCard(id) {
+    await axios.delete(`http://localhost:3000/conteudos/${id}`);
+
+    const items = this.state.contents;
+    const result = items.filter((contents) => contents.id !== id);
+    this.setState({ contents: result });
+  }
+
+  editCard(id) {
+    const items = this.state.contents;
+    const result = items.find((contents) => contents.id === id);
+
+    this.openFormModal(
+      result.conteudo,
+      result.url,
+      result.tipoConteudoId,
+      result.tecnologiaId,
+      result.carga_horaria,
+      result.prioridadeId,
+
+      result.priorityDescription,
+      result.typeDescription,
+      result.technologyName,
+
+    );
+  }
+
   render() {
-    console.log(this.state);
     return (
       <div className="App">
-        <PrimaryButton onClick={() => alert('oi')}>
-          <MdAddCircleOutline />
-          Adicionar Conteúdo
-        </PrimaryButton>
-        <FormContent />
+        <Header />
+
+        <div className="main-buttons">
+          <div className="main-button-action">
+            <PrimaryButton>
+              <MdFilterList className="button-content" />
+              <span className="button-content">Filtrar</span>
+            </PrimaryButton>
+          </div>
+          <div className="main-button-action">
+            <PrimaryButton onClick={this.handleNewContentClick.bind(this)}>
+              <MdAddCircleOutline className="button-content" />
+              <span className="button-content">Adicionar Conteúdo</span>
+            </PrimaryButton>
+          </div>
+        </div>
         <ListCardContent
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}
+          editCard={this.editCard.bind(this)}
         />
         <Footer />
       </div>

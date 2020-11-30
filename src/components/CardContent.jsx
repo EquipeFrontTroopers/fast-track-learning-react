@@ -8,8 +8,12 @@ import PrimaryButton from './PrimaryButton';
 class CardContent extends Component {
   delete() {
     const { id } = this.props;
-    console.log(this.props);
     this.props.deleteCard(id);
+  }
+
+  edit() {
+    const { id } = this.props;
+    this.props.editCard(id);
   }
 
   formatTime(hours) {
@@ -46,12 +50,8 @@ class CardContent extends Component {
             <div className="card-content-priority">{this.props.priority}</div>
           </div>
           <div className="card-container-button">
-            <PrimaryButton onClick={() => alert('oi')}>
-              <MdModeEdit />
-            </PrimaryButton>
-            <PrimaryButton onClick={this.delete.bind(this)}>
-              <MdDelete />
-            </PrimaryButton>
+            <PrimaryButton onClick={this.edit.bind(this)}><MdModeEdit /></PrimaryButton>
+            <PrimaryButton onClick={this.delete.bind(this)}><MdDelete /></PrimaryButton>
           </div>
         </div>
       </section>

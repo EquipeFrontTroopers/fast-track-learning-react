@@ -18,6 +18,7 @@ class ListCardContent extends Component {
                 workload={item.carga_horaria}
                 priority={item.priorityDescription}
                 deleteCard={this.props.deleteCard}
+                editCard={this.props.editCard}
               />
             </li>
           ))}
