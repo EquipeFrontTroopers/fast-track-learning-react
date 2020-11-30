@@ -109,8 +109,8 @@ class App extends Component {
     typeDescription,
     technologyName,
     onSubmit, id) {
-    const MySwal = withReactContent(Swal);
-    MySwal.fire({
+    this.MySwal = withReactContent(Swal);
+    this.MySwal.fire({
       html: <FormContent
         onSubmit={onSubmit.bind(this)}
         content={content}
@@ -125,7 +125,14 @@ class App extends Component {
       showCancelButton: false,
       focusConfirm: false,
       showConfirmButton: false,
-    });
+    }).then(() => this.MySwal.fire({
+      icon: 'success',
+      title: 'Salvo!',
+      text: 'O conteúdo foi salvo com sucesso!',
+      footer: '<p>Fast Track Learning</p>',
+      confirmButtonColor: '#f7b718',
+
+    }));
   }
 
   async createNewContent(content, url, workload, technology, type, priority) {
@@ -137,7 +144,7 @@ class App extends Component {
       tipoConteudoId: type,
       prioridadeId: priority,
     });
-
+    this.MySwal.close();
     const items = this.state.contents;
     items.push(resp.data);
     this.addContentInfo(items);
@@ -152,6 +159,7 @@ class App extends Component {
       tipoConteudoId: type,
       prioridadeId: priority,
     });
+    this.MySwal.close();
     const index = this.state.contents.findIndex((item) => item.id === id);
     this.state.contents[index] = resp.data;
     this.addContentInfo(this.state.contents);
