@@ -58,6 +58,7 @@ class FormContent extends Component {
       this.state.technology,
       this.state.type,
       this.state.priority,
+      this.props.id,
     );
   }
 
@@ -74,13 +75,25 @@ class FormContent extends Component {
               placeholder="Descrição do conteúdo"
               className="form-content-item"
               value={this.state.content}
+              required
             />
           </label>
-            <input type="url" value={this.state.url} onChange={this.handleChangeURL.bind(this)} id="furl" name="url" className="form-content-item" />
+
+          <label htmlFor="url" className="form-content-label">
+            URL
+            <input type="url" value={this.state.url} onChange={this.handleChangeURL.bind(this)} id="furl" name="url" className="form-content-item" required />
+
           </label>
           <label htmlFor="type" className="form-content-label">
             Tipo do Conteúdo
-            <select id="type" value={this.state.type} onChange={this.handleChangeTypeContent.bind(this)} className="form-content-item">
+            <select
+              id="type"
+              name="type"
+              value={this.state.type}
+              onChange={this.handleChangeTypeContent.bind(this)}
+              className="form-content-item"
+              required
+            >
               <option value="none" disabled selected> </option>
               <option value="1">Curso</option>
               <option value="2">Podcast</option>
@@ -89,14 +102,14 @@ class FormContent extends Component {
           </label>
           <label htmlFor="priority" className="form-content-label">
             Prioridade
-            <select id="priority" value={this.state.priority} onChange={this.handleChangePriority.bind(this)} className="form-content-item">
+            <select id="priority" value={this.state.priority} onChange={this.handleChangePriority.bind(this)} className="form-content-item" required>
               <option value="none" disabled selected> </option>
               <option value="1">Obrigatório</option>
               <option value="2">Complementar</option>
             </select>
             <label htmlFor="technology" className="form-content-label label-left">
               Tecnologia
-              <select id="technology" value={this.state.technology} onChange={this.handleChangeTechnology.bind(this)} name="technology" className="form-content-item">
+              <select id="technology" value={this.state.technology} onChange={this.handleChangeTechnology.bind(this)} name="technology" className="form-content-item" required>
                 <option value="none" disabled selected> </option>
                 <option value="1">Angular</option>
                 <option value="2">React</option>
@@ -108,7 +121,13 @@ class FormContent extends Component {
           </label>
           <label htmlFor="workload" className="form-content-label label-right">
             Carga Horária
-            <input type="text" value={this.state.workload} onChange={this.handleChangeWorkload.bind(this)} name="worload" className="form-content-item" />
+            <input
+              type="text"
+              value={this.state.workload}
+              onChange={this.handleChangeWorkload.bind(this)}
+              name="worload"
+              className="form-content-item"
+            />
           </label>
 
           <button type="submit" value="Enviar" className="form-button">Inserir/Editar</button>

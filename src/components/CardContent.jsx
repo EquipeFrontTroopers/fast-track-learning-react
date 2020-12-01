@@ -39,9 +39,8 @@ class CardContent extends Component {
         </div>
 
         <div className="card-container-content">
-          <p className="card-content">
-            <a href={this.props.url}>{this.props.content}</a>
-          </p>
+
+          <p className="card-content"><a target="_blank" rel="noopener noreferrer" href={this.props.url}>{this.props.content}</a></p>
           <p className="card-content-type">{this.props.type}</p>
         </div>
 
