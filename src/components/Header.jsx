@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './reset.css';
 import './Header.css';
 import { GrLogout } from 'react-icons/gr';
 import logo from '../images/logo.png';
@@ -6,22 +7,17 @@ import logo from '../images/logo.png';
 class Header extends Component {
   render() {
     return (
-      <div className="Header">
-        <div className="Header_logo">
-          <img src={logo} className="Logo" alt="logo" />
+      <div className="header-container">
+        <div className="header-logo"><img src={logo} alt="oi" /></div>
+        <div className="header-nav">
+          <nav>
+            <a href="/html/">Username</a>
+            <a href="/html/">
+              <GrLogout className="nav-icon-logout" />
+              Logout
+            </a>
+          </nav>
         </div>
-
-        <nav className="Nav">
-          <ul>
-            <p>USERNAME</p>
-            <li>
-              <button type="button">
-                <GrLogout />
-                LOGOUT
-              </button>
-            </li>
-          </ul>
-        </nav>
       </div>
     );
   }

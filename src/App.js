@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
+// import jwtDecode from 'jwt-decode';
 import Header from './components/Header';
+import api from './api';
 
 import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
@@ -13,7 +14,6 @@ import PrimaryButton from './components/PrimaryButton';
 import Footer from './components/Footer';
 
 import './HomePage.css';
-
 
 class App extends Component {
   constructor() {
@@ -25,6 +25,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // const decoded = jwtDecode(token);
+    // console.log(decoded);
     this.getContent();
   }
 
@@ -33,20 +35,20 @@ class App extends Component {
   }
 
   async getContent() {
-    const contentResponse = await axios.get('http://localhost:3000/conteudos');
+    const contentResponse = await api.get('http://18.225.7.114:8050/conteudos');
     const contents = contentResponse.data;
 
     this.addContentInfo(contents);
   }
 
   async addContentInfo(contents) {
-    const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
+    const prioritiesResponse = await api.get('http://18.225.7.114:8050/prioridades');
     const priorities = prioritiesResponse.data;
 
-    const typeResponse = await axios.get('http://localhost:3000/tipoConteudos');
+    const typeResponse = await api.get('http://18.225.7.114:8050/tipoConteudos');
     const type = typeResponse.data;
 
-    const technologyResponse = await axios.get('http://localhost:3000/tecnologias');
+    const technologyResponse = await api.get('http://18.225.7.114:8050/tecnologias');
     const technology = technologyResponse.data;
 
     const priorityOfContent = this.addPriorityDescription(contents, priorities);
@@ -140,7 +142,7 @@ class App extends Component {
   }
 
   async createNewContent(content, url, workload, technology, type, priority) {
-    const resp = await axios.post('http://localhost:3000/conteudos', {
+    const resp = await api.post('http://18.225.7.114:8050/conteudos', {
       conteudo: content,
       url,
       carga_horaria: workload,
@@ -155,7 +157,7 @@ class App extends Component {
   }
 
   async patchContent(content, url, workload, technology, type, priority, id) {
-    const resp = await axios.patch(`http://localhost:3000/conteudos/${id}`, {
+    const resp = await api.patch(`http://18.225.7.114:8050/conteudos/${id}`, {
       conteudo: content,
       url,
       carga_horaria: workload,
@@ -171,7 +173,7 @@ class App extends Component {
   }
 
   async deleteCard(id) {
-    await axios.delete(`http://localhost:3000/conteudos/${id}`);
+    await api.delete(`http://18.225.7.114:8050/conteudos/${id}`);
 
     const items = this.state.contents;
     const result = items.filter((contents) => contents.id !== id);
