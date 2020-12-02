@@ -11,8 +11,8 @@ class Header extends Component {
         <div className="header-logo"><img src={logo} alt="oi" /></div>
         <div className="header-nav">
           <nav>
-            <a href="/html/">Username</a>
-            <a href="/html/">
+            <span>{this.props.username}</span>
+            <a href="https://fast-939d3.web.app/sign-in/">
               <GrLogout className="nav-icon-logout" />
               Logout
             </a>

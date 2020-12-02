@@ -1,6 +1,20 @@
+import jwtDecode from 'jwt-decode';
+
 function getToken() {
   const queryString = window.location.search;
-  return queryString.substring(1);
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get('token');
 }
 
-export default getToken;
+function getDecodedUser() {
+  try {
+    const decoded = jwtDecode(getToken());
+    console.log(decoded);
+    return decoded;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export { getToken, getDecodedUser };

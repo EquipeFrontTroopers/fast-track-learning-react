@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
-// import jwtDecode from 'jwt-decode';
+import { getDecodedUser } from './token';
 import Header from './components/Header';
 import api from './api';
+import config from './config';
 
 import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
@@ -25,8 +26,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // const decoded = jwtDecode(token);
-    // console.log(decoded);
+    this.MySwal = withReactContent(Swal);
+
+    this.user = getDecodedUser();
+    this.verificarUsuario();
+
     this.getContent();
   }
 
@@ -35,20 +39,20 @@ class App extends Component {
   }
 
   async getContent() {
-    const contentResponse = await api.get('http://18.225.7.114:8050/conteudos');
+    const contentResponse = await api.get(`${config.urlApi}conteudos`);
     const contents = contentResponse.data;
 
     this.addContentInfo(contents);
   }
 
   async addContentInfo(contents) {
-    const prioritiesResponse = await api.get('http://18.225.7.114:8050/prioridades');
+    const prioritiesResponse = await api.get(`${config.urlApi}prioridades`);
     const priorities = prioritiesResponse.data;
 
-    const typeResponse = await api.get('http://18.225.7.114:8050/tipoConteudos');
+    const typeResponse = await api.get(`${config.urlApi}tipoConteudos`);
     const type = typeResponse.data;
 
-    const technologyResponse = await api.get('http://18.225.7.114:8050/tecnologias');
+    const technologyResponse = await api.get(`${config.urlApi}tecnologias`);
     const technology = technologyResponse.data;
 
     const priorityOfContent = this.addPriorityDescription(contents, priorities);
@@ -131,18 +135,21 @@ class App extends Component {
       showCancelButton: false,
       focusConfirm: false,
       showConfirmButton: false,
-    }).then(() => this.MySwal.fire({
-      icon: 'success',
-      title: 'Salvo!',
-      text: 'O conteúdo foi salvo com sucesso!',
-      footer: '<p>Fast Track Learning</p>',
-      confirmButtonColor: '#f7b718',
+    }).then((param) => {
+      if (param.dismiss) return;
+      this.MySwal.fire({
+        icon: 'success',
+        title: 'Salvo!',
+        text: 'O conteúdo foi salvo com sucesso!',
+        footer: '<p>Fast Track Learning</p>',
+        confirmButtonColor: '#f7b718',
 
-    }));
+      });
+    });
   }
 
   async createNewContent(content, url, workload, technology, type, priority) {
-    const resp = await api.post('http://18.225.7.114:8050/conteudos', {
+    const resp = await api.post(`${config.urlApi}conteudos`, {
       conteudo: content,
       url,
       carga_horaria: workload,
@@ -157,7 +164,7 @@ class App extends Component {
   }
 
   async patchContent(content, url, workload, technology, type, priority, id) {
-    const resp = await api.patch(`http://18.225.7.114:8050/conteudos/${id}`, {
+    const resp = await api.patch(`${config.urlApi}conteudos/${id}`, {
       conteudo: content,
       url,
       carga_horaria: workload,
@@ -173,7 +180,7 @@ class App extends Component {
   }
 
   async deleteCard(id) {
-    await api.delete(`http://18.225.7.114:8050/conteudos/${id}`);
+    await api.delete(`${config.urlApi}conteudos/${id}`);
 
     const items = this.state.contents;
     const result = items.filter((contents) => contents.id !== id);
@@ -200,11 +207,33 @@ class App extends Component {
     }
   }
 
+  async verificarUsuario() {
+    if (this.usuario) {
+      const usuariosResponse = await api.get(`${config.urlApi}usuarios`);
+      const usuarios = usuariosResponse.data;
+      const usuarioLogado = usuarios.find((item) => item.email === this.user.email);
+      console.log(usuarioLogado);
+      if (usuarioLogado) {
+        this.setState({ username: usuarioLogado.nickname });
+      }
+    } else {
+      this.MySwal.fire({
+        icon: 'warning',
+        title: 'Login Inválido',
+        text: 'Tente novamente',
+        footer: '<p>Fast Track Learning</p>',
+        confirmButtonColor: '#f7b718',
+
+      }).then(() => {
+        window.location.href = config.urlLogin;
+      });
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        <Header />
-
+        <Header username={this.state.username} />
         <div className="main-buttons">
           <div className="main-button-action">
             <PrimaryButton>

@@ -1,6 +1,5 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
-import getToken from './token';
+import { getToken } from './token';
 
 const api = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -9,8 +8,9 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const newConfig = config;
   try {
-    console.log('estou no INTERCEPTOR');
+    // console.log('estou no INTERCEPTOR');
     const token = getToken();
+    // console.log(token);
 
     if (token) {
       newConfig.headers.Authorization = `Bearer ${token}`;
