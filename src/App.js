@@ -6,6 +6,7 @@ import { getDecodedUser } from './token';
 import Header from './components/Header';
 import api from './api';
 import config from './config';
+// import { isAdmin } from './user';
 
 import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
@@ -22,6 +23,7 @@ class App extends Component {
 
     this.state = {
       contents: [],
+      isAdmin: false,
     };
   }
 
@@ -30,7 +32,6 @@ class App extends Component {
 
     this.user = getDecodedUser();
     this.checkUser();
-
     this.getContent();
   }
 
@@ -208,15 +209,14 @@ class App extends Component {
   }
 
   async checkUser() {
-    console.log('this.user', this.user);
     if (this.user) {
       const usersResponse = await api.get(`${config.urlApi}usuarios`);
       const users = usersResponse.data;
       const userLogged = users.find((item) => item.email === this.user.email);
-      console.log(users);
       console.log('userLogged', userLogged);
+
       if (userLogged) {
-        this.setState({ username: userLogged.nickname });
+        this.setState({ userLogged });
       } else {
         this.redirectToLogin();
       }
@@ -241,7 +241,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header username={this.state.username} />
+        <Header username={this.state.userLogged && this.state.userLogged.nickname} />
         <div className="main-buttons">
           <div className="main-button-action">
             <PrimaryButton>
@@ -250,7 +250,10 @@ class App extends Component {
             </PrimaryButton>
           </div>
           <div className="main-button-action">
-            <PrimaryButton onClick={this.handleNewContentClick.bind(this)}>
+            <PrimaryButton
+              onClick={this.handleNewContentClick.bind(this)}
+              disable={!this.state.isAdmin}
+            >
               <MdAddCircleOutline className="button-content" />
               <span className="button-content">Adicionar Conteúdo</span>
             </PrimaryButton>
@@ -260,6 +263,7 @@ class App extends Component {
           listContents={this.state.contents}
           deleteCard={this.deleteCard.bind(this)}
           editCard={this.editCard.bind(this)}
+          disableActions={!this.state.isAdmin}
         />
         <Footer />
       </div>

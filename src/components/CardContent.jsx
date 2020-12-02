@@ -49,8 +49,20 @@ class CardContent extends Component {
             <div className="card-content-priority">{this.props.priority}</div>
           </div>
           <div className="card-container-button">
-            <PrimaryButton onClick={this.edit.bind(this)}><MdModeEdit /></PrimaryButton>
-            <PrimaryButton onClick={this.delete.bind(this)}><MdDelete /></PrimaryButton>
+            <PrimaryButton
+              onClick={this.edit.bind(this)}
+              disable={this.props.disableActions}
+            >
+              <MdModeEdit />
+
+            </PrimaryButton>
+            <PrimaryButton
+              onClick={this.delete.bind(this)}
+              disable={this.props.disableActions}
+            >
+              <MdDelete />
+
+            </PrimaryButton>
           </div>
         </div>
       </section>

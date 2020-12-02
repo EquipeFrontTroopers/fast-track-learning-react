@@ -2,16 +2,13 @@ import axios from 'axios';
 import { getToken } from './token';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'https://app-fast.herokuapp.com/',
 });
 
 api.interceptors.request.use((config) => {
   const newConfig = config;
   try {
-    // console.log('estou no INTERCEPTOR');
     const token = getToken();
-    // console.log(token);
-
     if (token) {
       newConfig.headers.Authorization = `Bearer ${token}`;
     }
