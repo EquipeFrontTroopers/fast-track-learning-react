@@ -6,7 +6,7 @@ import { getDecodedUser } from './token';
 import Header from './components/Header';
 import api from './api';
 import config from './config';
-// import { isAdmin } from './user';
+import { isAdmin } from './user';
 
 import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
@@ -216,7 +216,7 @@ class App extends Component {
       console.log('userLogged', userLogged);
 
       if (userLogged) {
-        this.setState({ userLogged });
+        this.setState({ userLogged, isAdmin: isAdmin(userLogged.tipoUsuarioId) });
       } else {
         this.redirectToLogin();
       }
@@ -241,7 +241,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+
         <Header username={this.state.userLogged && this.state.userLogged.nickname} />
+
+        <h1 className="main-title">Lista de Conteúdos</h1>
         <div className="main-buttons">
           <div className="main-button-action">
             <PrimaryButton>
