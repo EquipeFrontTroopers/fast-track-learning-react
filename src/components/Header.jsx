@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './reset.css';
 import './Header.css';
-import { GrLogout } from 'react-icons/gr';
+import { FaSignInAlt } from 'react-icons/fa';
 import logo from '../images/logo.png';
 
 class Header extends Component {
@@ -13,7 +13,7 @@ class Header extends Component {
           <nav>
             <span>{this.props.username}</span>
             <a href="https://fast-939d3.web.app/sign-in/">
-              <GrLogout className="nav-icon-logout" />
+              <FaSignInAlt className="nav-icon-logout" />
               Logout
             </a>
           </nav>

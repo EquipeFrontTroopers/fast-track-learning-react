@@ -28,5 +28,6 @@ module.exports = {
     'react/no-access-state-in-setstate': 'off',
     'react/no-array-index-key': 'off',
     'react/jsx-no-bind': 'off',
+    'linebreak-style': 'off',
   },
 };
