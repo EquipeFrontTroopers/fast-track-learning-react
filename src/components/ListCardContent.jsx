@@ -19,6 +19,7 @@ class ListCardContent extends Component {
                 priority={item.priorityDescription}
                 deleteCard={this.props.deleteCard}
                 editCard={this.props.editCard}
+                disableActions={this.props.disableActions}
               />
             </li>
           ))}

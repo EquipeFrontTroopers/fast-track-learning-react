@@ -14,3 +14,7 @@
 .primary-button:hover {
   background-color: #c98303;
 }
+
+.primary-button[disabled] {
+  display:none;
+}
