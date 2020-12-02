@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
+import { getDecodedUser } from './token';
 import Header from './components/Header';
+import api from './api';
+import config from './config';
 
 import FormContent from './components/FormContent';
 import ListCardContent from './components/ListCardContent';
@@ -13,7 +15,6 @@ import PrimaryButton from './components/PrimaryButton';
 import Footer from './components/Footer';
 
 import './HomePage.css';
-
 
 class App extends Component {
   constructor() {
@@ -25,6 +26,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.MySwal = withReactContent(Swal);
+
+    this.user = getDecodedUser();
+    this.checkUser();
+
     this.getContent();
   }
 
@@ -33,20 +39,20 @@ class App extends Component {
   }
 
   async getContent() {
-    const contentResponse = await axios.get('http://localhost:3000/conteudos');
+    const contentResponse = await api.get(`${config.urlApi}conteudos`);
     const contents = contentResponse.data;
 
     this.addContentInfo(contents);
   }
 
   async addContentInfo(contents) {
-    const prioritiesResponse = await axios.get('http://localhost:3000/prioridades');
+    const prioritiesResponse = await api.get(`${config.urlApi}prioridades`);
     const priorities = prioritiesResponse.data;
 
-    const typeResponse = await axios.get('http://localhost:3000/tipoConteudos');
+    const typeResponse = await api.get(`${config.urlApi}tipoConteudos`);
     const type = typeResponse.data;
 
-    const technologyResponse = await axios.get('http://localhost:3000/tecnologias');
+    const technologyResponse = await api.get(`${config.urlApi}tecnologias`);
     const technology = technologyResponse.data;
 
     const priorityOfContent = this.addPriorityDescription(contents, priorities);
@@ -129,18 +135,21 @@ class App extends Component {
       showCancelButton: false,
       focusConfirm: false,
       showConfirmButton: false,
-    }).then(() => this.MySwal.fire({
-      icon: 'success',
-      title: 'Salvo!',
-      text: 'O conteúdo foi salvo com sucesso!',
-      footer: '<p>Fast Track Learning</p>',
-      confirmButtonColor: '#f7b718',
+    }).then((param) => {
+      if (param.dismiss) return;
+      this.MySwal.fire({
+        icon: 'success',
+        title: 'Salvo!',
+        text: 'O conteúdo foi salvo com sucesso!',
+        footer: '<p>Fast Track Learning</p>',
+        confirmButtonColor: '#f7b718',
 
-    }));
+      });
+    });
   }
 
   async createNewContent(content, url, workload, technology, type, priority) {
-    const resp = await axios.post('http://localhost:3000/conteudos', {
+    const resp = await api.post(`${config.urlApi}conteudos`, {
       conteudo: content,
       url,
       carga_horaria: workload,
@@ -155,7 +164,7 @@ class App extends Component {
   }
 
   async patchContent(content, url, workload, technology, type, priority, id) {
-    const resp = await axios.patch(`http://localhost:3000/conteudos/${id}`, {
+    const resp = await api.patch(`${config.urlApi}conteudos/${id}`, {
       conteudo: content,
       url,
       carga_horaria: workload,
@@ -171,7 +180,7 @@ class App extends Component {
   }
 
   async deleteCard(id) {
-    await axios.delete(`http://localhost:3000/conteudos/${id}`);
+    await api.delete(`${config.urlApi}conteudos/${id}`);
 
     const items = this.state.contents;
     const result = items.filter((contents) => contents.id !== id);
@@ -198,11 +207,41 @@ class App extends Component {
     }
   }
 
+  async checkUser() {
+    console.log('this.user', this.user);
+    if (this.user) {
+      const usersResponse = await api.get(`${config.urlApi}usuarios`);
+      const users = usersResponse.data;
+      const userLogged = users.find((item) => item.email === this.user.email);
+      console.log(users);
+      console.log('userLogged', userLogged);
+      if (userLogged) {
+        this.setState({ username: userLogged.nickname });
+      } else {
+        this.redirectToLogin();
+      }
+    } else {
+      this.redirectToLogin();
+    }
+  }
+
+  redirectToLogin() {
+    this.MySwal.fire({
+      icon: 'warning',
+      title: 'Login Inválido',
+      text: 'Tente acessar novamente',
+      footer: '<p>Fast Track Learning</p>',
+      confirmButtonColor: '#f7b718',
+
+    }).then(() => {
+      window.location.href = config.urlLogin;
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <Header />
-
+        <Header username={this.state.username} />
         <div className="main-buttons">
           <div className="main-button-action">
             <PrimaryButton>
