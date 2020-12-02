@@ -29,7 +29,7 @@ class App extends Component {
     this.MySwal = withReactContent(Swal);
 
     this.user = getDecodedUser();
-    this.verificarUsuario();
+    this.checkUser();
 
     this.getContent();
   }
@@ -207,27 +207,35 @@ class App extends Component {
     }
   }
 
-  async verificarUsuario() {
-    if (this.usuario) {
-      const usuariosResponse = await api.get(`${config.urlApi}usuarios`);
-      const usuarios = usuariosResponse.data;
-      const usuarioLogado = usuarios.find((item) => item.email === this.user.email);
-      console.log(usuarioLogado);
-      if (usuarioLogado) {
-        this.setState({ username: usuarioLogado.nickname });
+  async checkUser() {
+    console.log('this.user', this.user);
+    if (this.user) {
+      const usersResponse = await api.get(`${config.urlApi}usuarios`);
+      const users = usersResponse.data;
+      const userLogged = users.find((item) => item.email === this.user.email);
+      console.log(users);
+      console.log('userLogged', userLogged);
+      if (userLogged) {
+        this.setState({ username: userLogged.nickname });
+      } else {
+        this.redirectToLogin();
       }
     } else {
-      this.MySwal.fire({
-        icon: 'warning',
-        title: 'Login Inválido',
-        text: 'Tente novamente',
-        footer: '<p>Fast Track Learning</p>',
-        confirmButtonColor: '#f7b718',
-
-      }).then(() => {
-        window.location.href = config.urlLogin;
-      });
+      this.redirectToLogin();
     }
+  }
+
+  redirectToLogin() {
+    this.MySwal.fire({
+      icon: 'warning',
+      title: 'Login Inválido',
+      text: 'Tente acessar novamente',
+      footer: '<p>Fast Track Learning</p>',
+      confirmButtonColor: '#f7b718',
+
+    }).then(() => {
+      window.location.href = config.urlLogin;
+    });
   }
 
   render() {
