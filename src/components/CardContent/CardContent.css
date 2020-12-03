@@ -19,6 +19,9 @@
   }
 }
 
+.card-link{
+  color:#000000;
+}
 .card:hover {
   box-shadow: 5px 5px 5px 0 rgba(223, 157, 16, 0.5);
 }
