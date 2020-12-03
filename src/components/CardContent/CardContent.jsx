@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './reset.css';
+import '../../style/reset.css';
 import './CardContent.css';
 
 import { MdDelete, MdModeEdit } from 'react-icons/md';
-import PrimaryButton from './PrimaryButton';
+import PrimaryButton from '../PrimaryButton/PrimaryButton';
 
 class CardContent extends Component {
   delete() {

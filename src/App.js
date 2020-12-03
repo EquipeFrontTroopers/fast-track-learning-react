@@ -2,20 +2,16 @@ import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
-import { getDecodedUser } from './token';
-import Header from './components/Header';
-import api from './api';
-import config from './config';
-import { isAdmin } from './user';
-
-import FormContent from './components/FormContent';
-import ListCardContent from './components/ListCardContent';
-
-import PrimaryButton from './components/PrimaryButton';
-
-import Footer from './components/Footer';
-
-import './HomePage.css';
+import { getDecodedUser } from './services/token';
+import Header from './components/Header/Header';
+import api from './services/api';
+import config from './config/config';
+import isAdmin from './services/user';
+import FormContent from './components/FormContent/FormContent';
+import ListCardContent from './components/ListCardContent/ListCardContent';
+import PrimaryButton from './components/PrimaryButton/PrimaryButton';
+import Footer from './components/Footer/Footer';
+import './style/mainApp.css';
 
 class App extends Component {
   constructor() {
