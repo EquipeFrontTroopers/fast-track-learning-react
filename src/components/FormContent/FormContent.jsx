@@ -12,6 +12,10 @@ class FormContent extends Component {
     this.type = '';
     this.url = '';
     this.priority = '';
+
+    this.state = {
+      content: '',
+    };
   }
 
   componentDidMount() {
@@ -78,7 +82,7 @@ class FormContent extends Component {
     const validado = this.validaForm();
     if (!validado && this.state.userSubmited) {
       return (
-        <span className="from-content-mandatory">* Campos Obrigatórios</span>
+        <span className="from-content-mandatory" id="invalid-form-text">* Campos Obrigatórios</span>
       );
     }
     return null;
@@ -95,6 +99,7 @@ class FormContent extends Component {
           <label htmlFor="url" className="form-content-label">
             Conteúdo*
             <textarea
+              id="content"
               rows={4}
               onChange={this.handleChangeContent.bind(this)}
               placeholder="Descrição do conteúdo"
@@ -106,7 +111,7 @@ class FormContent extends Component {
 
           <label htmlFor="url" className="form-content-label">
             URL*
-            <input type="url" value={this.state.url} onChange={this.handleChangeURL.bind(this)} id="furl" name="url" className="form-content-item" required />
+            <input type="url" value={this.state.url} onChange={this.handleChangeURL.bind(this)} id="url" name="url" className="form-content-item" required />
 
           </label>
           <label htmlFor="type" className="form-content-label">
@@ -155,7 +160,7 @@ class FormContent extends Component {
             />
           </label>
           {this.WarningBanner()}
-          <button type="submit" value="Enviar" className="form-button">Inserir/Editar</button>
+          <button type="submit" value="Enviar" id="btn-submit" className="form-button">Inserir/Editar</button>
 
         </form>
       </div>

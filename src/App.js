@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { MdAddCircleOutline } from 'react-icons/md';
+import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
+
 import { getDecodedUser } from './services/token';
 import Header from './components/Header/Header';
 import api from './services/api';
@@ -177,7 +178,6 @@ class App extends Component {
     const index = this.state.contents.findIndex((item) => item.id === id);
     this.state.contents[index] = resp.data;
     this.addContentInfo(this.state.contents);
-    // console.log(result);
   }
 
   async deleteCard(id) {
@@ -255,17 +255,22 @@ class App extends Component {
         <h1 className="main-title">Lista de Conteúdos</h1>
         <div className="main-buttons">
           <div className="main-button-action">
-            <span className="filter-label">Selecionar Tecnologia</span>
-            <select
-              id="filter"
-              onChange={this.filtrar.bind(this)}
-              className="select-filter"
-            >
-              <option value="" selected>Todas</option>
-              {this.state.technologies.map((technology) => (
-                <option value={technology.id}>{technology.nome}</option>
-              ))}
-            </select>
+            <div className="filter-container">
+              <span className="filter-label">
+                <MdFilterList className="button-content" />
+                Filtrar
+              </span>
+              <select
+                id="filter"
+                onChange={this.filtrar.bind(this)}
+                className="select-filter"
+              >
+                <option value="" selected>Todas Tecnologias</option>
+                {this.state.technologies.map((technology) => (
+                  <option value={technology.id}>{technology.nome}</option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="main-button-action">
             <PrimaryButton
