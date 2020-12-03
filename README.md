@@ -9,7 +9,7 @@ Este é um projeto desenvolvido em um desafio pela equipe de desenvolvedores da 
 Este projeto foi desenvolvida em **React**.
 
 - Primeiro abra o arquivo do projeto em alguma IDE, e no terminal da IDE digite o comando `npm install`, para instalar todas as dependências do projetos.
-- Após digite o comando `npm start` para iniciar o projeto.
+- Após digite o comando `npm run start-react` para iniciar o projeto.
 
 ### VALIDAÇÃO LINT
 
