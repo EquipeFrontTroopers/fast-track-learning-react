@@ -29,21 +29,22 @@ class CardContent extends Component {
   render() {
     return (
       <section className="card">
-        <div className="card-header">
-          <div className="card-content-technology">
-            <p>{this.props.technology}</p>
+        <a target="_blank" rel="noopener noreferrer" href={this.props.url} className="card-link">
+          <div className="card-header">
+            <div className="card-content-technology">
+              <p>{this.props.technology}</p>
+            </div>
+            <div className="card-content-workload">
+              <p>{this.formatTime(this.props.workload)}</p>
+            </div>
           </div>
-          <div className="card-content-workload">
-            <p>{this.formatTime(this.props.workload)}</p>
+
+          <div className="card-container-content">
+
+            <p className="card-content">{this.props.content}</p>
+            <p className="card-content-type">{this.props.type}</p>
           </div>
-        </div>
-
-        <div className="card-container-content">
-
-          <p className="card-content"><a target="_blank" rel="noopener noreferrer" href={this.props.url}>{this.props.content}</a></p>
-          <p className="card-content-type">{this.props.type}</p>
-        </div>
-
+        </a>
         <div className="card-footer">
           <div className="card-container-priority">
             <div className="card-content-priority">{this.props.priority}</div>
@@ -65,6 +66,7 @@ class CardContent extends Component {
             </PrimaryButton>
           </div>
         </div>
+
       </section>
     );
   }

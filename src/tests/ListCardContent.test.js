@@ -1,17 +1,24 @@
 import React from 'react';
-// import { render, screen } from '@testing-library/react';
-import { shallow } from 'enzyme';
-import ListCardContent from './ListCardContent';
+import Adapter from 'enzyme-adapter-react-16';
+import { shallow, configure } from 'enzyme';
+import contents from './mock/contents';
 
-test('CheckboxWithLabel changes the text after click', () => {
-  // Render a checkbox with label in the document
-  const listCard = shallow(
-    <ListCardContent labelOn="On" labelOff="Off" />,
+import ListCardContent from '../components/ListCardContent/ListCardContent';
+
+configure({ adapter: new Adapter() });
+
+it('ListCardContent render no cards when listContents is empty', () => {
+  const listContents = shallow(
+    <ListCardContent listContents={[]} />,
   );
 
-  expect(listCard.text()).toEqual('Off');
+  expect(listContents.find('li').length).toBe(0);
+});
 
-  listCard.find('input').simulate('change');
+it('ListCardContent renders cards', () => {
+  const listContents = shallow(
+    <ListCardContent listContents={contents} />,
+  );
 
-  expect(listCard.text()).toEqual('On');
+  expect(listContents.find('li').length).toBe(contents.length);
 });
