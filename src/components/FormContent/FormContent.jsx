@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './reset.css';
+import '../../style/reset.css';
 import './FormContent.css';
 
 class FormContent extends Component {
@@ -50,49 +50,74 @@ class FormContent extends Component {
   }
 
   handleSubmit(event) {
+    this.setState({ userSubmited: true });
+
     event.preventDefault();
-    this.props.onSubmit(
-      this.state.content,
-      this.state.url,
-      this.state.workload,
-      this.state.technology,
-      this.state.type,
-      this.state.priority,
-      this.props.id,
-    );
+    if (this.validaForm()) {
+      this.props.onSubmit(
+        this.state.content,
+        this.state.url,
+        this.state.workload,
+        this.state.technology,
+        this.state.type,
+        this.state.priority,
+        this.props.id,
+      );
+    }
+  }
+
+  validaForm() {
+    if (this.state.content
+      && this.state.technology
+      && this.state.type
+      && this.state.priority) { return true; }
+    return false;
+  }
+
+  WarningBanner() {
+    const validado = this.validaForm();
+    if (!validado && this.state.userSubmited) {
+      return (
+        <span className="from-content-mandatory">* Campos Obrigatórios</span>
+      );
+    }
+    return null;
   }
 
   render() {
     return (
       <div className="form-container">
-        <form className="form-content" onSubmit={this.handleSubmit.bind(this)}>
+        <form
+          className="form-content"
+          onSubmit={this.handleSubmit.bind(this)}
+        >
           <h1 className="form-title">Inserir/Editar Conteúdo</h1>
           <label htmlFor="url" className="form-content-label">
-            Conteúdo
+            Conteúdo*
             <textarea
               rows={4}
               onChange={this.handleChangeContent.bind(this)}
               placeholder="Descrição do conteúdo"
               className="form-content-item"
               value={this.state.content}
-              required
+
             />
           </label>
 
           <label htmlFor="url" className="form-content-label">
-            URL
+            URL*
             <input type="url" value={this.state.url} onChange={this.handleChangeURL.bind(this)} id="furl" name="url" className="form-content-item" required />
 
           </label>
           <label htmlFor="type" className="form-content-label">
-            Tipo do Conteúdo
+            Tipo do Conteúdo*
             <select
               id="type"
               name="type"
               value={this.state.type}
               onChange={this.handleChangeTypeContent.bind(this)}
               className="form-content-item"
-              required
+
             >
               <option value="none" disabled selected> </option>
               <option value="1">Curso</option>
@@ -101,14 +126,14 @@ class FormContent extends Component {
             </select>
           </label>
           <label htmlFor="priority" className="form-content-label">
-            Prioridade
+            Prioridade*
             <select id="priority" value={this.state.priority} onChange={this.handleChangePriority.bind(this)} className="form-content-item" required>
               <option value="none" disabled selected> </option>
               <option value="1">Obrigatório</option>
               <option value="2">Complementar</option>
             </select>
             <label htmlFor="technology" className="form-content-label label-left">
-              Tecnologia
+              Tecnologia*
               <select id="technology" value={this.state.technology} onChange={this.handleChangeTechnology.bind(this)} name="technology" className="form-content-item" required>
                 <option value="none" disabled selected> </option>
                 <option value="1">Angular</option>
@@ -129,7 +154,7 @@ class FormContent extends Component {
               className="form-content-item"
             />
           </label>
-
+          {this.WarningBanner()}
           <button type="submit" value="Enviar" className="form-button">Inserir/Editar</button>
 
         </form>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './reset.css';
+import '../../style/reset.css';
 import './Header.css';
 import { FaSignInAlt } from 'react-icons/fa';
-import logo from '../images/logo.png';
+import logo from '../../images/logo.png';
 
 class Header extends Component {
   render() {

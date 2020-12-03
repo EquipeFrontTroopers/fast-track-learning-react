@@ -2,4 +2,4 @@ function isAdmin(permissionId) {
   return permissionId === 1;
 }
 
-export { isAdmin };
+export default isAdmin;
