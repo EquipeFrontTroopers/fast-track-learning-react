@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { MdAddCircleOutline, MdFilterList } from 'react-icons/md';
+import { MdAddCircleOutline } from 'react-icons/md';
 import { getDecodedUser } from './services/token';
 import Header from './components/Header/Header';
 import api from './services/api';
@@ -19,6 +19,8 @@ class App extends Component {
 
     this.state = {
       contents: [],
+      allContents: [],
+      technologies: [],
       isAdmin: false,
     };
   }
@@ -58,6 +60,8 @@ class App extends Component {
 
     this.setState({
       contents: technologyOfContent,
+      allContents: technologyOfContent,
+      technologies: technology,
     });
   }
 
@@ -234,6 +238,14 @@ class App extends Component {
     });
   }
 
+  filtrar(event) {
+    const filterValue = event.target.value;
+    const contentFiltered = filterValue ? this.state.allContents
+      .filter((content) => content.tecnologiaId === Number(filterValue))
+      : this.state.allContents;
+    this.setState({ contents: contentFiltered });
+  }
+
   render() {
     return (
       <div className="App">
@@ -243,10 +255,17 @@ class App extends Component {
         <h1 className="main-title">Lista de Conteúdos</h1>
         <div className="main-buttons">
           <div className="main-button-action">
-            <PrimaryButton>
-              <MdFilterList className="button-content" />
-              <span className="button-content">Filtrar</span>
-            </PrimaryButton>
+            <span className="filter-label">Selecionar Tecnologia</span>
+            <select
+              id="filter"
+              onChange={this.filtrar.bind(this)}
+              className="select-filter"
+            >
+              <option value="" selected>Todas</option>
+              {this.state.technologies.map((technology) => (
+                <option value={technology.id}>{technology.nome}</option>
+              ))}
+            </select>
           </div>
           <div className="main-button-action">
             <PrimaryButton
