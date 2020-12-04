@@ -23,9 +23,12 @@ Este é um projeto desenvolvido no desafio, trilha Fast-Track da Compasso UOL, p
   - Showcase ao final do desafio;
 # :art: Layout
 <p align="center">
-   <img src="https://trello-attachments.s3.amazonaws.com/5fb51453899a4c55885b6474/5fb6afb9f05339434282699d/ea5a0c898159e338c298dcf0a3b3205d/cards.png"
-       alt="Logo front trooper's"
-       width="280"/>
+   <img src="https://github.com/EquipeFrontTroopers/fast-track-learning-angular/blob/master/.github/select-action.png"
+       alt="Logo front trooper's"/>
+</p>
+<p align="center">
+   <img src="https://github.com/EquipeFrontTroopers/fast-track-learning-angular/blob/master/.github/list.png"
+       alt="Logo front trooper's"/>
 </p>
 
 # :construction_worker: Como executar
