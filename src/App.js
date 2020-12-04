@@ -249,7 +249,7 @@ class App extends Component {
     return (
       <div className="App">
 
-        <Header username={this.state.userLogged && this.state.userLogged.nickname} />
+        <Header username={this.state.userLogged && this.state.userLogged.nome} />
 
         <h1 className="main-title">Lista de Conteúdos</h1>
         <div className="main-buttons">

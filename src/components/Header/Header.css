@@ -1,3 +1,7 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .header-container {
   display: flex;
   flex-direction:row;
@@ -52,13 +56,21 @@
   }
 }
 
-.header-nav a {
+.header-nav button {
+  border: 0;
+  padding: 10px;
+  background-color: transparent;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #000;
+}
+/* .header-nav a {
   color: black;
   text-decoration: none;
   padding: 5px;
   margin: 5px;
   border-bottom: 5px solid #dddddd;
-}
+} */
 
 .header-nav span {
   color: black;
@@ -66,9 +78,16 @@
   margin: 5px;
 }
 
-.header-nav a:hover {
-  border-bottom: 5px solid #f7b718;
+.header-nav button:hover {
+  background-color: #f7b718;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #fff;
 }
+/* .header-nav a:hover {
+  border-bottom: 5px solid #f7b718;
+} */
 
 .nav-icon-logout{
   display:none
