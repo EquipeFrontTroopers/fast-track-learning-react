@@ -10,19 +10,5 @@
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-@media only screen and (min-width: 768px) {
-  .list-card {
-    width: 70%;
-    justify-content: space-between;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .list-card-item {
-    margin: 12px;
-  }
+  padding: 0px 100px;
 }
