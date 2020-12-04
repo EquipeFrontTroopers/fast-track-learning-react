@@ -1,32 +1,58 @@
-# FAST-TRACK LEARNING-REACT
+# FAST-TRACK LEARNING-REACT[10:12] Wesley Belizario da Silva
+    
+
+# FAST-TRACK LEARNING - ANGULAR
 <p align="center">
    <img src="https://github.com/EquipeFrontTroopers/fast-track-learning-angular/blob/master/.github/logo-front-troopers.png"
        alt="Logo front trooper's"
        width="280"/>
 </p>
+# :page_facing_up: Sobre o projeto
+Este é um projeto desenvolvido no desafio, trilha Fast-Track da Compasso UOL, pela equipe de desenvolvedores.
 
-### SOBRE O PROJETO
+:orange_book: [Fast Track Learning](https://fast-939d3.web.app/sign-in) é uma forma facilitada para os gestores gerenciarem os estudos,cursos e conteúdos que são sugeridos aos colaboradores no programa Fast Track possam consumir.
+- Requisitos de desenvolvimento:
+  - Desenvolvimento de uma aplicação Angular e outra React. As duas precisam scomunicar e do ponto de vista do usuário, deve parecer apenas uma aplicação;
+  - Validação de Lint;
+  - Teste unitários (Angular => Karma e Jasmine, React => Jest);
+  - Autenticação e autorização de usuários;
+  - Utilizar Interceptor em requisições http;
+  - No mínimo trabalhar com requisições http Get e Post;
+  - Pelo menos dois componentes genéricos;
+- Requisitos de Processos:
+  - Daily;
+  - Code Review;
+  - Mapa de cenários;
+  - Showcase ao final do desafio;
+# :art: Layout
+<p align="center">
+   <img src="https://trello-attachments.s3.amazonaws.com/5fb51453899a4c55885b6474/5fb6afb9f05339434282699d/ea5a0c898159e338c298dcf0a3b3205d/cards.png"
+       alt="Logo front trooper's"
+       width="280"/>
+</p>
 
-Este é um projeto desenvolvido em um desafio pela equipe de desenvolvedores da trilha Fast-Track da Compasso UOL.
+# :construction_worker: Como executar
+### Executar a aplicação
+```bash
+# Clone este repositório 
+$ git clone git@github.com:EquipeFrontTroopers/fast-track-learning-react.git
+# Acesse a pasta do projeto no terminal/cmd
+$ cd fast-track-learning-react
+# Instale as dependências
+$ npm install
+# Execute a aplicação
+$ npm run start-react
+# O servidor inciará na porta:3000 - acesse http://localhost:3000 
+```
+### Executar os testes com karma
+```bash
+# Executar os testes
+$ npm run test
+```
+### Executar os teste de lint
+```bash
+# Executar os testes de lint
+$ npm run lint
+```
 
-### COMO RODAR
 
-Este projeto foi desenvolvida em **React**.
-
-- Primeiro abra o arquivo do projeto em alguma IDE, e no terminal da IDE digite o comando `npm install`, para instalar todas as dependências do projetos.
-- Após digite o comando `npm run start-react` para iniciar o projeto.
-
-### VALIDAÇÃO LINT
-
-Para este projeto foi utilizado a ferramenta **Eslint**, e o estilo utilizado foi o do Airbnb. Também foi utilizado uma extensão do Eslint no VS Code ,para facilitar a validação lint.
-
-- Para executar a validação Lint utilize os comandos `npm run lint` no terminal
-
-### COMO RODAR OS TESTES
-
-Neste projeto estamos utilizando a ferramenta **Jest** para os testes.
-Para executar os testes utilize o comando `npm run test`
-
-### SUGESTÕES
-
-- Sugerimos como IDE o VS Code.
