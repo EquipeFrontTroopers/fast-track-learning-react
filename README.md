@@ -1,7 +1,4 @@
-# FAST-TRACK LEARNING-REACT[10:12] Wesley Belizario da Silva
-    
-
-# FAST-TRACK LEARNING - ANGULAR
+# FAST-TRACK LEARNING - REACT
 <p align="center">
    <img src="https://github.com/EquipeFrontTroopers/fast-track-learning-angular/blob/master/.github/logo-front-troopers.png"
        alt="Logo front trooper's"
