@@ -41,7 +41,7 @@ $ npm install
 $ npm run start-react
 # O servidor inciará na porta:3000 - acesse http://localhost:3000 
 ```
-### Executar os testes com karma
+### Executar os testes com Jest
 ```bash
 # Executar os testes
 $ npm run test
