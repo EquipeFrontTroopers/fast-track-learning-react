@@ -9,10 +9,9 @@ function getToken() {
 function getDecodedUser() {
   try {
     const decoded = jwtDecode(getToken());
-    console.log(decoded);
+
     return decoded;
   } catch (error) {
-    console.log(error);
     return null;
   }
 }
