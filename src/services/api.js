@@ -14,7 +14,6 @@ api.interceptors.request.use((config) => {
     }
     return newConfig;
   } catch (err) {
-    console.log(err);
     return config;
   }
 });

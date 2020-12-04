@@ -213,7 +213,6 @@ class App extends Component {
       const usersResponse = await api.get(`${config.urlApi}usuarios`);
       const users = usersResponse.data;
       const userLogged = users.find((item) => item.email === this.user.email);
-      console.log('userLogged', userLogged);
 
       if (userLogged) {
         this.setState({ userLogged, isAdmin: isAdmin(userLogged.tipoUsuarioId) });
