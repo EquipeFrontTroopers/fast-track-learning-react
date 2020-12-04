@@ -1,4 +1,9 @@
 # FAST-TRACK LEARNING-REACT
+<p align="center">
+   <img src="https://github.com/EquipeFrontTroopers/fast-track-learning-angular/blob/master/.github/logo-front-troopers.png"
+       alt="Logo front trooper's"
+       width="280"/>
+</p>
 
 ### SOBRE O PROJETO
 
